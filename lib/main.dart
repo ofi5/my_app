@@ -12,7 +12,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'UTip App',
-      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
       home: Utip(),
     );
   }
@@ -28,9 +31,17 @@ class Utip extends StatefulWidget {
 class _UtipState extends State<Utip> {
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+    final style = theme.textTheme.titleMedium!.copyWith(
+      color: theme.colorScheme.onPrimary,
+      fontWeight: FontWeight.w600,
+    );
     return Scaffold(
       appBar: AppBar(
-        title: const Text('UTip App'),
+        title: Text(
+          'UTip App',
+          style: Theme.of(context).textTheme.headlineLarge,
+        ),
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -39,18 +50,25 @@ class _UtipState extends State<Utip> {
         ),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
+            margin: const EdgeInsets.all(16),
             padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.black),
-
-              color: const Color.fromARGB(255, 3, 232, 18),
+              color: Theme.of(context).colorScheme.inversePrimary,
               borderRadius: BorderRadius.circular(10),
             ),
             child: Column(
-              children: [Text('Total per person:'), Text('\$100.00')],
+              children: [
+                Text('Total per person', style: style),
+                Text(
+                  '\$100.00',
+                  style: style.copyWith(
+                    fontSize: theme.textTheme.headlineMedium!.fontSize,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
