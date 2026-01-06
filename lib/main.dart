@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/widgets/TipSlider.dart';
+import 'package:my_app/widgets/person_counter.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,6 +32,8 @@ class Utip extends StatefulWidget {
 
 class _UtipState extends State<Utip> {
   int _personCount = 1;
+
+  double _tipPercent = 1;
 
   void _incrementPerson() {
     setState(() {
@@ -137,26 +141,18 @@ class _UtipState extends State<Utip> {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("20%", style: theme.textTheme.titleMedium),
-                        ],
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
 
-                      children: [
-                        RangeSlider(
-                          values: RangeValues(0, 100),
-                          max: 150,
-                          divisions: 5,
-                          onChanged: null,
-                        ),
-                      ],
+                    Text(
+                      "${(_tipPercent * 100).round()} %",
+                      style: theme.textTheme.titleMedium,
+                    ),
+                    TipSlider(
+                      tipPercent: _tipPercent,
+                      onChanged: (value) {
+                        setState(() {
+                          _tipPercent = value;
+                        });
+                      },
                     ),
                   ],
                 ),
@@ -165,38 +161,6 @@ class _UtipState extends State<Utip> {
           ),
         ],
       ),
-    );
-  }
-}
-
-class PersonCount extends StatelessWidget {
-  const PersonCount({
-    super.key,
-    required this.theme,
-    required int personCount,
-    required this.onIncrement,
-    required this.onDecrement,
-  }) : _personCount = personCount;
-
-  final ThemeData theme;
-  final int _personCount;
-  final VoidCallback? onIncrement;
-  final VoidCallback? onDecrement;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text("split", style: theme.textTheme.titleMedium),
-        Row(
-          children: [
-            IconButton(onPressed: onDecrement, icon: Icon(Icons.remove)),
-            Text("$_personCount", style: theme.textTheme.titleMedium),
-            IconButton(onPressed: onIncrement, icon: Icon(Icons.add)),
-          ],
-        ),
-      ],
     );
   }
 }
